@@ -38,13 +38,21 @@ class VM:
         assInst += self.stack.putToR(TEMPREG)
         assInst += segment.getFromR(addr, TEMPREG)
         return assInst
-
+    def add(self):
+        assInst = self.stack.decreasePointer()
+        assInst += self.stack.putToD()
+        assInst += self.stack.decreasePointer()
+        assInst += self.stack.point()
+        assInst += ("M=D+M\n")
+        assInst += self.stack.increasePointer()
+        return assInst
 test = ""
 t = VM(MEMORY, 1000)
-test += t.push(CONSTANT,17)
-test += t.pop(LOCAL,2)
-test += t.push(LOCAL,2)
-test += t.push(LOCAL,2)
-test += t.pop(STATIC,10)
-test += t.pop(LOCAL,3)
+#test += t.push(CONSTANT,17)
+#test += t.pop(LOCAL,2)
+test += t.push(CONSTANT,10)
+test += t.push(CONSTANT,2)
+#test += t.pop(STATIC,10)
+#test += t.pop(LOCAL,3)
+test += t.add()
 print(test)
